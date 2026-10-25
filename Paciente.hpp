@@ -17,6 +17,7 @@ private:
     float Temperatura;
     int Dolor;
     int DiasHospitalizacion;
+
 public:
     Paciente() {
         this->ID = "";
@@ -53,52 +54,30 @@ public:
         this->DiasHospitalizacion = hospitalizacion;
     }
 
-	string getID() {
-		return this->ID;
-	}
+    string getID() { return this->ID; }
+    string getNombre() { return this->Nombre; }
+    int getEdad() { return this->Edad; }
+    string getServicio() { return this->Servicio; }
+    bool getTrauma() { return this->trauma; }
+    bool getrequiereCirugía() { return this->requiereCirugía; }
+    bool getsintomasNeurologicos() { return this->sintomasNeurologicos; }
+    string getTipoDolor() { return this->TipoDolor; }
+    float getTemperatura() { return this->Temperatura; }
+    int getDolor() { return this->Dolor; }
+    int getDiasHospitalizacion() { return this->DiasHospitalizacion; }
 
-	string getNombre() {
-		return this->Nombre;
-	}
-
-	int getEdad() {
-		return this->Edad;
-	}
-
-    string getServicio() {
-        return this->Servicio;
-    }
-
-    bool getTrauma() {
-        return this->trauma;
-    }
-
-    bool getrequiereCirugía() {
-        return this->requiereCirugía;
-    }
-
-    bool getsintomasNeurologicos() {
-        return this->sintomasNeurologicos;
-    }
-
-    string getTipoDolor() {
-        return this->TipoDolor;
-    }
-
-    float getTemperatura() {
-        return this->Temperatura;
-    }
-
-    int getDolor() {
-        return this->Dolor;
-    }
-
-    int getDiasHospitalizacion() {
-        return this->DiasHospitalizacion;
-    }
+    void setTemperatura(float temp) { this->Temperatura = temp; }
+    void setDolor(int dolor) { this->Dolor = dolor; }
+    void setTipoDolor(string tipo) { this->TipoDolor = tipo; }
+    void setTrauma(bool t) { this->trauma = t; }
+    void setsintomasNeurologicos(bool sintomas) { this->sintomasNeurologicos = sintomas; }
+    void setrequiereCirugia(bool req) { this->requiereCirugía = req; }
+    void setDiasHospitalizacion(int dias) { this->DiasHospitalizacion = dias; }
 
     void setServicio(string Servi) {
-        if (Servi == "Cardiologia" || Servi == "Urgencias" || Servi == "Cirugia" || Servi == "Pediatria" || Servi == "Traumatologia" || Servi == "Neurologia" || Servi == "Medicina General" || Servi == "Hospitalizacion") {
+        if (Servi == "Cardiologia" || Servi == "Urgencias" || Servi == "Cirugia" ||
+            Servi == "Pediatria" || Servi == "Traumatologia" || Servi == "Neurologia" ||
+            Servi == "Medicina General" || Servi == "Hospitalizacion") {
             this->Servicio = Servi;
         }
         else {
