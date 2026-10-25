@@ -119,6 +119,7 @@ int main() {
                     cout << "Pacientes: ";
 
                     int contadorDept = 0;
+
                     imprimirPorDepartamento(raizAVL, nombreDepartamento, contadorDept);
 
                     if (contadorDept == 0) {
@@ -145,6 +146,8 @@ int main() {
                 cin >> caracter;
                 cout << "Buscando en el AVL...\n";
 
+                l.buscar(raizAVL, caracter);
+                
                 //funcion asociada a la busqueda
 
                 cout << endl;
