@@ -34,6 +34,32 @@ private:
         return obtenerAltura(N->izq) - obtenerAltura(N->der);
     }
 
+    void documentarRecursivo(
+        NodoAVL* nodo,
+        const string& prefijo,
+        const string& etiqueta
+    ) {
+        if (nodo == nullptr) {
+            cout << prefijo << etiqueta << "(vacio)\n";
+            return;
+        }
+
+        cout << prefijo << etiqueta
+            << "ID: " << nodo->idClave
+            << " | Nombre: " << nodo->p.getNombre()
+            << " | Altura: " << nodo->altura
+            << " | FB: " << obtenerBalance(nodo)
+            << "\n";
+
+        documentarRecursivo(
+            nodo->izq, prefijo + "    ", "Izq: "
+        );
+
+        documentarRecursivo(
+            nodo->der, prefijo + "    ", "Der: "
+        );
+    }
+
     NodoAVL* rotacionDerecha(NodoAVL* y) {
         NodoAVL* x = y->izq;
         NodoAVL* T2 = x->der;
@@ -110,6 +136,20 @@ private:
         return false;
     }
 
+    void mostrarBalanceRecursivo(NodoAVL* nodo) {
+        if (nodo == nullptr) return;
+
+        mostrarBalanceRecursivo(nodo->izq);
+
+        cout << "ID: " << nodo->idClave
+            << " | Nombre: " << nodo->p.getNombre()
+            << " | Altura: " << nodo->altura
+            << " | Factor de balance: "
+            << obtenerBalance(nodo) << "\n";
+
+        mostrarBalanceRecursivo(nodo->der);
+    }
+
     void inordenRecursivo(NodoAVL* nodo) {
         if (nodo != nullptr) {
             inordenRecursivo(nodo->izq);
@@ -150,6 +190,18 @@ public:
         raiz = insertarRecursivo(raiz, pac);
     }
 
+    void documentarArbol() {
+        if (raiz == nullptr) {
+            cout << "El arbol AVL esta vacio\n";
+            return;
+        }
+
+        cout << "=== ESTRUCTURA DEL ARBOL AVL ===\n";
+        cout << "Altura total: " << obtenerAltura(raiz) << "\n\n";
+
+        documentarRecursivo(raiz, "", "Raiz: ");
+    }
+
     bool buscar(std::string criterio) {
         if (raiz == nullptr) return false;
 
@@ -186,7 +238,47 @@ public:
         }
     }
 
-    void mostrarInorden() { inordenRecursivo(raiz); }
-    void mostrarPreorden() { preordenRecursivo(raiz); }
-    void mostrarPostorden() { postordenRecursivo(raiz); }
+    void mostrarInorden() {
+        if (raiz == nullptr) {
+            cout << "Sin pacientes\n";
+        }
+        else {
+            inordenRecursivo(raiz);
+        }
+    }
+
+    void mostrarAlturaArbol() {
+        cout << "Altura del arbol AVL: "
+            << obtenerAltura(raiz) << "\n";
+    }
+
+    void mostrarPreorden() {
+        if (raiz == nullptr) {
+            cout << "Sin pacientes\n";
+        }
+        else {
+            preordenRecursivo(raiz);
+        }
+    }
+
+    void mostrarPostorden() {
+        if (raiz == nullptr) {
+            cout << "Sin pacientes\n";
+        }
+        else {
+            postordenRecursivo(raiz);
+        }
+    }
+
+    void mostrarFactoresBalance() {
+        if (raiz == nullptr) {
+            cout << "Sin pacientes\n";
+            return;
+        }
+
+        cout << "=== FACTORES DE BALANCE ===\n";
+        cout << "FB = altura izquierda - altura derecha\n\n";
+
+        mostrarBalanceRecursivo(raiz);
+    }
 };
