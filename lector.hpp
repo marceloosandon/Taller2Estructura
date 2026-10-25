@@ -99,55 +99,6 @@ public:
         }
         return cabeza;
     }
-    Nodo* cargar() {
-        ifstream archivo("pacientes.txt");
-        if (archivo.fail()) {
-            cerr << "No se pudo abrir el archivo." << endl;
-            exit(1);
-        }
-        Nodo* cabeza = nullptr;
-        Nodo* actual = nullptr;
-
-        string token0, token1, token2, token3;
-
-        while (getline(archivo, token0, ';') &&
-            getline(archivo, token1, ';') &&
-            getline(archivo, token2, ';') &&
-            getline(archivo, token3, '\n')) {
-
-            int entero = stoi(token2);
-            if (token3 == "Cardiologia" || token3 == "Urgencias" || token3 == "Cirugia" || token3 == "Pediatria" || token3 == "Traumatologia" || token3 == "Neurologia" || token3 == "Medicina General" || token3 == "Hospitalizacion") {
-                Paciente p(token0, token1, entero, token3);
-                Nodo* nuevoNodo = new Nodo(p);
-
-                if (cabeza == nullptr) {
-                    cabeza = nuevoNodo;
-                    actual = nuevoNodo;
-                }
-                else {
-                    actual->SetNodoSiguiente(nuevoNodo);
-                    actual = nuevoNodo;
-                }
-            }
-        }
-        archivo.close();
-        Nodo* p1 = cabeza;
-        while (p1 != nullptr && p1->ObtenerPacienteSiguiente() != nullptr) {
-            Nodo* p2 = p1;
-            while (p2->ObtenerPacienteSiguiente() != nullptr) {
-                if (p1->verPaciente().getID() == p2->ObtenerPacienteSiguiente()->verPaciente().getID() && p1->verPaciente().getNombre() == p2->ObtenerPacienteSiguiente()->verPaciente().getNombre() && p1->verPaciente().getEdad() == p2->ObtenerPacienteSiguiente()->verPaciente().getEdad() && p1->verPaciente().getServicio() == p2->ObtenerPacienteSiguiente()->verPaciente().getServicio()) {
-                    Nodo* nodoAEliminar = p2->ObtenerPacienteSiguiente();
-                    p2->SetNodoSiguiente(nodoAEliminar->ObtenerPacienteSiguiente());
-                    delete nodoAEliminar;
-                }
-                else {
-                    p2 = p2->ObtenerPacienteSiguiente();
-                }
-            }
-            p1 = p1->ObtenerPacienteSiguiente();
-        }
-        return cabeza;
-    }
     Nodo* eliminarPaciente(string nombre, Nodo* n, Paciente p) {
         while (n != nullptr) {
             if (n->verPaciente().getNombre() == nombre) {
@@ -193,6 +144,15 @@ public:
                 return pr;
             }
             else {
+                if (Tipo2 != NombrePaciente) {
+                    cout << "Suplantacion de Nombre: " << NombrePaciente << endl;
+                }
+                if (p.getEdad() != Edad) {
+                    cout << "Suplantación de Edad: " << p.getEdad() << endl;
+                }
+                if (p.getID() != Tipo1) {
+                    cout << "Suplantación de ID: " << p.getID() << endl;
+                }
                 return vacio;
             }
         }
@@ -253,5 +213,30 @@ public:
             }
         }
         return "Invalido";
+    }
+    bool buscarRecursivo(Nodo* actual, string caracter, Nodo* anterior) {
+        if (actual == nullptr) return false;
+        if (caracter == actual->verPaciente().getID() || caracter == actual->verPaciente().getNombre()) {
+            std::cout << "Paciente Encontrado: " << actual->verPaciente().getNombre() << "\n";
+            if (anterior != nullptr) {
+                std::cout << "El nodo anterior (padre) es: " << anterior->verPaciente().getNombre() << "\n";
+            }
+            else {
+                std::cout << "No tiene nodo anterior (es la raiz del arbol).\n";
+            }
+            return true;
+        }
+
+        if (buscarRecursivo(actual->tomarCaminoIzquierdo(), caracter, actual)) return true;
+
+        if (buscarRecursivo(actual->tomarCaminoDerecho(), caracter, actual)) return true;
+
+        return false;
+    }
+
+    void buscar(Nodo* raiz, string caracter) {
+        if (!buscarRecursivo(raiz, caracter, nullptr)) {
+            std::cout << "nullptr (No encontrado)\n";
+        }
     }
 };
